@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deadline Ninja — Strike Before the Deadline!</title>
+  <meta name="description" content="Deadline Ninja: Student task management website with a shadow ninja theme. Defeat deadlines before deadlines defeat you.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Ambient Glows -->
+  <div class="ambient-glow glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow glow-2" aria-hidden="true"></div>
+
+  <!-- Main App Wrapper -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <!-- Stylized Ninja Mask / Shuriken SVG -->
+          <div class="logo-icon-wrapper">
+            <svg class="ninja-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" stroke="url(#ninjaGrad)" stroke-width="2.5" fill="#18122B"/>
+              <!-- Ninja Headband -->
+              <path d="M10 20C10 20 18 17 24 17C30 17 38 20 38 20V26C38 26 30 23 24 23C18 23 10 26 10 26V20Z" fill="url(#ninjaGrad)"/>
+              <!-- Headband Metal Plate -->
+              <rect x="18" y="18" width="12" height="6" rx="2" fill="#C4B5FD" opacity="0.9"/>
+              <!-- Eyes Opening -->
+              <ellipse cx="18" cy="28" rx="3.5" ry="1.5" fill="#F8FAFC"/>
+              <ellipse cx="30" cy="28" rx="3.5" ry="1.5" fill="#F8FAFC"/>
+              <!-- Fierce Pupils -->
+              <circle cx="18" cy="28" r="1.2" fill="#8B5CF6"/>
+              <circle cx="30" cy="28" r="1.2" fill="#8B5CF6"/>
+              <!-- Shuriken Star Accent -->
+              <path d="M24 6L25.5 10.5L30 12L25.5 13.5L24 18L22.5 13.5L18 12L22.5 10.5L24 6Z" fill="#C4B5FD"/>
+              <defs>
+                <linearGradient id="ninjaGrad" x1="10" y1="6" x2="38" y2="42" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#C4B5FD"/>
+                  <stop offset="0.5" stop-color="#8B5CF6"/>
+                  <stop offset="1" stop-color="#6D28D9"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="shuriken-spin" aria-hidden="true">✦</div>
+          </div>
+          <div class="brand-text">
+            <h1 class="brand-title">DEADLINE <span>NINJA</span></h1>
+            <p class="brand-tagline">Strike Before the Deadline!</p>
+          </div>
+        </div>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close navigation menu">✕</button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#dashboard" class="nav-link active" data-target="dashboard">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+              </span>
+              <span class="nav-label">Dashboard</span>
+              <span class="active-indicator"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#tasks" class="nav-link" data-target="tasks">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 11l3 3L22 4"></path>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+              </span>
+              <span class="nav-label">My Tasks</span>
+              <span class="nav-badge" id="sidebarActiveCount">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#upcoming" class="nav-link" data-target="upcoming">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </span>
+              <span class="nav-label">Upcoming Deadlines</span>
+              <span class="nav-badge danger-badge" id="sidebarThreatCount">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#progress" class="nav-link" data-target="progress">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </span>
+              <span class="nav-label">Progress Tracker</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#settings" class="nav-link" data-target="settings">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </span>
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar Footer Banner -->
+      <div class="sidebar-footer">
+        <div class="ninja-rank-mini">
+          <div class="rank-badge-icon">🥷</div>
+          <div class="rank-info">
+            <span class="rank-title" id="sidebarRankTitle">Novice Genin</span>
+            <span class="rank-sub" id="sidebarRankSub">Level 1 Shinobi</span>
+          </div>
+        </div>
+        <div class="ninja-quote-pill">
+          <span>🗡️ Focus • Speed • Victory</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Overlay for mobile drawer -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      
+      <!-- Top Bar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Open sidebar menu" aria-expanded="false" aria-controls="sidebar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="live-date-pill">
+            <svg class="calendar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span id="currentDateDisplay">Loading date...</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Quick Quick Add Button -->
+          <button class="btn btn-primary btn-sm open-modal-btn" id="topbarNewMissionBtn">
+            <span class="btn-icon">＋</span>
+            <span class="btn-text">New Mission</span>
+          </button>
+
+          <!-- Theme Toggle Button -->
+          <button class="theme-toggle-btn" id="themeToggleBtn" title="Switch Theme (Dark / Light)" aria-label="Toggle theme">
+            <span class="theme-icon sun-icon">☀️</span>
+            <span class="theme-icon moon-icon">🌙</span>
+          </button>
+
+          <!-- Student Profile Avatar -->
+          <div class="profile-chip" id="profileChip" title="Student Ninja Profile">
+            <div class="avatar-glow">🥷</div>
+            <span class="profile-name" id="userCodenameDisplay">Ninja</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Dashboard Container -->
+      <div class="content-container">
+        
+        <!-- SECTION 1: HERO SECTION -->
+        <section class="hero-section" id="dashboard">
+          <div class="hero-card">
+            <div class="hero-content">
+              <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>SHINOBI ACADEMIC COMMAND</span>
+              </div>
+              <h2 class="hero-title">
+                Welcome back, <span class="highlight-text" id="heroGreetingName">Ninja</span>!
+              </h2>
+              <p class="hero-subtitle">Your next victory starts with one completed task.</p>
+              
+              <!-- Brand Motto Box -->
+              <div class="hero-brand-box">
+                <div class="brand-strike-tagline">
+                  <span class="shuriken-inline">✦</span>
+                  <strong>"Strike Before the Deadline!"</strong>
+                </div>
+                <p class="brand-desc">
+                  "Perfect for students who want to defeat deadlines before deadlines defeat them."
+                </p>
+              </div>
+
+              <div class="hero-actions">
+                <button class="btn btn-primary btn-lg open-modal-btn" id="heroNewMissionBtn">
+                  <span class="btn-icon">＋</span>
+                  <span class="btn-text">New Mission</span>
+                </button>
+                <a href="#tasks" class="btn btn-secondary btn-lg">
+                  <span class="btn-text">View All Tasks</span>
+                  <span class="btn-arrow">→</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Hero Graphic Artwork -->
+            <div class="hero-graphic" aria-hidden="true">
+              <div class="graphic-circle outer-ring"></div>
+              <div class="graphic-circle inner-ring"></div>
+              <div class="ninja-emblem">
+                <svg viewBox="0 0 100 100" class="hero-svg">
+                  <!-- Shuriken blades -->
+                  <path d="M50 10 C50 10 54 35 65 35 C76 35 90 50 90 50 C90 50 65 54 65 65 C65 76 50 90 50 90 C50 90 46 65 35 65 C24 65 10 50 10 50 C10 50 35 46 35 35 C35 24 50 10 50 10 Z" fill="url(#heroBladeGrad)" filter="url(#glowFilter)"/>
+                  <circle cx="50" cy="50" r="10" fill="#0F0B1E" stroke="#C4B5FD" stroke-width="3"/>
+                  <circle cx="50" cy="50" r="4" fill="#8B5CF6"/>
+                  <defs>
+                    <linearGradient id="heroBladeGrad" x1="0" y1="0" x2="100" y2="100">
+                      <stop offset="0%" stop-color="#C4B5FD"/>
+                      <stop offset="50%" stop-color="#8B5CF6"/>
+                      <stop offset="100%" stop-color="#4C1D95"/>
+                    </linearGradient>
+                    <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#8B5CF6" flood-opacity="0.6"/>
+                    </filter>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: DASHBOARD STATISTICS (4 CARDS) -->
+        <section class="stats-grid">
+          <!-- Stat 1: Total Missions -->
+          <div class="stat-card" data-stat="total">
+            <div class="stat-header">
+              <span class="stat-label">Total Missions</span>
+              <div class="stat-icon-box purple-glow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="statTotal">0</span>
+              <span class="stat-sub">All assigned objectives</span>
+            </div>
+            <div class="stat-glow"></div>
+          </div>
+
+          <!-- Stat 2: Victories (Completed Tasks) -->
+          <div class="stat-card stat-success" data-stat="completed">
+            <div class="stat-header">
+              <span class="stat-label">Victories</span>
+              <div class="stat-icon-box green-glow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="statCompleted">0</span>
+              <span class="stat-sub">Missions successfully defeated</span>
+            </div>
+            <div class="stat-glow"></div>
+          </div>
+
+          <!-- Stat 3: Active Missions (Pending Tasks) -->
+          <div class="stat-card stat-primary" data-stat="pending">
+            <div class="stat-header">
+              <span class="stat-label">Active Missions</span>
+              <div class="stat-icon-box blue-glow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="statPending">0</span>
+              <span class="stat-sub">In progress or awaiting strike</span>
+            </div>
+            <div class="stat-glow"></div>
+          </div>
+
+          <!-- Stat 4: Danger Zone (Overdue Tasks) -->
+          <div class="stat-card stat-danger" data-stat="overdue">
+            <div class="stat-header">
+              <span class="stat-label">Danger Zone</span>
+              <div class="stat-icon-box red-glow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="statOverdue">0</span>
+              <span class="stat-sub">Overdue — strike immediately!</span>
+            </div>
+            <div class="stat-glow"></div>
+          </div>
+        </section>
+
+        <!-- TWO-COLUMN WORKSPACE LAYOUT -->
+        <div class="dashboard-grid">
+          
+          <!-- LEFT COLUMN: TASK MANAGEMENT SECTION -->
+          <section class="tasks-section" id="tasks">
+            <div class="section-card">
+              
+              <!-- Section Header -->
+              <div class="section-card-header">
+                <div>
+                  <h3 class="section-title">
+                    <span class="ninja-icon-mini">⚔️</span> My Tasks & Missions
+                  </h3>
+                  <p class="section-desc">Manage, conquer, and organize your academic assignments.</p>
+                </div>
+                <button class="btn btn-primary btn-sm open-modal-btn">
+                  <span class="btn-icon">＋</span>
+                  <span class="btn-text">Add Mission</span>
+                </button>
+              </div>
+
+              <!-- Filter & Search Toolbar -->
+              <div class="tasks-toolbar">
+                <!-- Search Bar -->
+                <div class="search-box">
+                  <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="taskSearchInput" placeholder="Search by mission title or subject..." autocomplete="off">
+                  <button class="search-clear-btn" id="searchClearBtn" title="Clear search" aria-label="Clear search input">✕</button>
+                </div>
+
+                <!-- Secondary Filter Row -->
+                <div class="filters-row">
+                  <!-- Status Filter Pills -->
+                  <div class="status-pills" role="tablist" aria-label="Task status filters">
+                    <button class="pill-btn active" data-filter="all" role="tab" aria-selected="true">
+                      All <span class="pill-count" id="countAll">0</span>
+                    </button>
+                    <button class="pill-btn" data-filter="pending" role="tab" aria-selected="false">
+                      Active <span class="pill-count" id="countPending">0</span>
+                    </button>
+                    <button class="pill-btn" data-filter="completed" role="tab" aria-selected="false">
+                      Victories <span class="pill-count" id="countCompleted">0</span>
+                    </button>
+                    <button class="pill-btn danger-pill" data-filter="overdue" role="tab" aria-selected="false">
+                      Danger Zone <span class="pill-count" id="countOverdue">0</span>
+                    </button>
+                  </div>
+
+                  <!-- Dropdowns (Subject & Sort) -->
+                  <div class="select-group">
+                    <!-- Subject Filter -->
+                    <div class="select-wrapper">
+                      <select id="subjectFilter" aria-label="Filter by subject">
+                        <option value="all">All Subjects</option>
+                      </select>
+                    </div>
+
+                    <!-- Sort Options -->
+                    <div class="select-wrapper">
+                      <select id="sortBy" aria-label="Sort tasks">
+                        <option value="date-asc">Due: Soonest First</option>
+                        <option value="date-desc">Due: Furthest First</option>
+                        <option value="priority-desc">Priority: High to Low</option>
+                        <option value="priority-asc">Priority: Low to High</option>
+                        <option value="title-asc">Title: A to Z</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tasks List Feed -->
+              <div class="tasks-list-container" id="tasksListContainer">
+                <!-- Task Cards will be rendered dynamically by JavaScript -->
+              </div>
+
+              <!-- Empty State Container -->
+              <div class="empty-state hidden" id="emptyStateContainer">
+                <div class="empty-icon-wrapper">
+                  <div class="empty-shuriken">🥷</div>
+                </div>
+                <h4 class="empty-title" id="emptyStateTitle">No Missions Found</h4>
+                <p class="empty-desc" id="emptyStateDesc">Your scroll is currently clear. Ready to take on a new academic challenge?</p>
+                <button class="btn btn-primary open-modal-btn">
+                  <span class="btn-icon">＋</span>
+                  <span>Create First Mission</span>
+                </button>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- RIGHT COLUMN: UPCOMING THREATS, PROGRESS TRACKER, MOTIVATION & REWARDS -->
+          <div class="sidebar-widgets">
+            
+            <!-- WIDGET 1: UPCOMING DEADLINES / INCOMING THREATS -->
+            <section class="widget-card threats-widget" id="upcoming">
+              <div class="widget-header">
+                <div class="widget-title-group">
+                  <span class="threat-flame">🔥</span>
+                  <h3 class="widget-title">Incoming Threats</h3>
+                </div>
+                <span class="widget-badge" id="threatCountBadge">0 approaching</span>
+              </div>
+              <p class="widget-subtitle">Tasks with the nearest impending deadlines.</p>
+              
+              <!-- Threats List Container -->
+              <div class="threats-list" id="threatsListContainer">
+                <!-- Dynamically populated -->
+              </div>
+            </section>
+
+            <!-- WIDGET 2: PROGRESS TRACKER (NINJA RANK) -->
+            <section class="widget-card progress-widget" id="progress">
+              <div class="widget-header">
+                <div class="widget-title-group">
+                  <span class="widget-icon">⚡</span>
+                  <h3 class="widget-title">Ninja Progress & Rank</h3>
+                </div>
+                <span class="rank-tag" id="progressRankTag">Novice Genin</span>
+              </div>
+
+              <!-- Visual Progress Bar -->
+              <div class="progress-display">
+                <div class="progress-label-row">
+                  <span class="progress-text-label" id="progressPercentageText">Ninja Progress: 0%</span>
+                  <span class="progress-count-label" id="progressMissionsConquered">0 out of 0 conquered!</span>
+                </div>
+                <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-fill" id="progressBarFill" style="width: 0%;">
+                    <div class="progress-glow-head"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Progress Statistics Breakdown -->
+              <div class="progress-stats-row">
+                <div class="prog-stat">
+                  <span class="prog-stat-value text-success" id="progVictoriesCount">0</span>
+                  <span class="prog-stat-name">Conquered</span>
+                </div>
+                <div class="prog-stat">
+                  <span class="prog-stat-value text-warning" id="progRemainingCount">0</span>
+                  <span class="prog-stat-name">Remaining</span>
+                </div>
+                <div class="prog-stat">
+                  <span class="prog-stat-value text-accent" id="progTotalCount">0</span>
+                  <span class="prog-stat-name">Total</span>
+                </div>
+              </div>
+
+              <!-- Ninja Rank Level Description -->
+              <div class="rank-tier-card">
+                <div class="tier-icon" id="rankTierIcon">🥋</div>
+                <div class="tier-details">
+                  <h4 class="tier-name" id="rankTierName">Academy Trainee</h4>
+                  <p class="tier-desc" id="rankTierDesc">Complete missions to promote your Shinobi rank!</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- WIDGET 3: MOTIVATION & REWARDS -->
+            <section class="widget-card motivation-widget">
+              <div class="widget-header">
+                <div class="widget-title-group">
+                  <span class="widget-icon">📜</span>
+                  <h3 class="widget-title">Ninja Wisdom & Rewards</h3>
+                </div>
+                <button class="cycle-quote-btn" id="cycleQuoteBtn" title="Get new inspiration" aria-label="Cycle motivational quote">↺</button>
+              </div>
+
+              <!-- Motivational Quote Card -->
+              <div class="quote-card">
+                <div class="quote-mark">“</div>
+                <p class="quote-text" id="quoteText">Small progress every day leads to legendary victories.</p>
+                <span class="quote-author" id="quoteAuthor">— Ancient Shinobi Creed</span>
+              </div>
+
+              <!-- Shinobi Achievements Section -->
+              <div class="achievements-section">
+                <h4 class="achievements-header">Mission Achievements</h4>
+                <div class="achievements-grid">
+                  
+                  <!-- Achievement 1 -->
+                  <div class="achievement-badge" id="achieveFirstStrike" title="Complete your first mission">
+                    <div class="achieve-icon">🎯</div>
+                    <div class="achieve-meta">
+                      <span class="achieve-name">First Strike</span>
+                      <span class="achieve-desc">Complete your 1st task</span>
+                    </div>
+                    <span class="achieve-status">Locked</span>
+                  </div>
+
+                  <!-- Achievement 2 -->
+                  <div class="achievement-badge" id="achieveDeadlineSlayer" title="Complete 5 missions">
+                    <div class="achieve-icon">⚔️</div>
+                    <div class="achieve-meta">
+                      <span class="achieve-name">Deadline Slayer</span>
+                      <span class="achieve-desc">Complete 5 tasks</span>
+                    </div>
+                    <span class="achieve-status">Locked</span>
+                  </div>
+
+                  <!-- Achievement 3 -->
+                  <div class="achievement-badge" id="achieveShadowMaster" title="Complete 10 missions">
+                    <div class="achieve-icon">👑</div>
+                    <div class="achieve-meta">
+                      <span class="achieve-name">Shadow Master</span>
+                      <span class="achieve-desc">Complete 10 tasks</span>
+                    </div>
+                    <span class="achieve-status">Locked</span>
+                  </div>
+
+                </div>
+              </div>
+            </section>
+
+            <!-- WIDGET 4: SETTINGS PANEL -->
+            <section class="widget-card settings-widget" id="settings">
+              <div class="widget-header">
+                <div class="widget-title-group">
+                  <span class="widget-icon">⚙️</span>
+                  <h3 class="widget-title">Dojo Settings</h3>
+                </div>
+              </div>
+
+              <div class="settings-list">
+                <!-- Theme Option -->
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <span class="setting-title">Visual Theme</span>
+                    <span class="setting-desc">Shadow Ninja (Dark) or Daylight Shinobi (Light)</span>
+                  </div>
+                  <button class="btn btn-secondary btn-sm" id="settingsThemeToggle">
+                    Switch Theme
+                  </button>
+                </div>
+
+                <!-- Sound Effects Option -->
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <span class="setting-title">Shinobi Audio</span>
+                    <span class="setting-desc">Subtle sound effects on victory and actions</span>
+                  </div>
+                  <button class="btn btn-secondary btn-sm" id="soundToggleBtn">
+                    <span id="soundToggleIcon">🔊</span> <span id="soundToggleText">Sound On</span>
+                  </button>
+                </div>
+
+                <!-- Ninja Codename Option -->
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <span class="setting-title">Ninja Codename</span>
+                    <span class="setting-desc">Personalize your dashboard greeting</span>
+                  </div>
+                  <div class="codename-input-wrap">
+                    <input type="text" id="codenameInput" placeholder="Your name" maxlength="16" value="Ninja">
+                    <button class="btn btn-primary btn-sm" id="saveCodenameBtn">Save</button>
+                  </div>
+                </div>
+
+                <!-- Data Management -->
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <span class="setting-title">Sample Missions</span>
+                    <span class="setting-desc">Restore original demonstration tasks</span>
+                  </div>
+                  <button class="btn btn-secondary btn-sm" id="resetSampleTasksBtn">
+                    Reset Samples
+                  </button>
+                </div>
+
+                <div class="setting-item danger-item">
+                  <div class="setting-info">
+                    <span class="setting-title">Clear Scroll</span>
+                    <span class="setting-desc">Remove all tasks and reset progress</span>
+                  </div>
+                  <button class="btn btn-danger btn-sm" id="clearAllTasksBtn">
+                    Clear All
+                  </button>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- App Footer -->
+      <footer class="app-footer">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <strong>DEADLINE NINJA</strong> — <em>"Strike Before the Deadline!"</em>
+          </div>
+          <p class="footer-desc">Designed with focus, stealth & discipline for students conquering academic challenges.</p>
+          <div class="footer-credits">
+            <span>Vanilla HTML, CSS & JavaScript • LocalStorage Enabled</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- MODAL: ADD / EDIT MISSION -->
+  <div class="modal-backdrop hidden" id="taskModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon" id="modalHeaderIcon">🗡️</span>
+          <h3 class="modal-title" id="modalTitle">Add New Mission</h3>
+        </div>
+        <button class="modal-close-btn" id="closeModalBtn" aria-label="Close modal window">✕</button>
+      </div>
+
+      <form id="taskForm" novalidate>
+        <input type="hidden" id="taskIdInput" value="">
+
+        <!-- Title Field -->
+        <div class="form-group">
+          <label for="taskTitleInput" class="form-label">
+            Mission Title <span class="required-star">*</span>
+          </label>
+          <input type="text" id="taskTitleInput" class="form-input" placeholder="e.g., Computer Science Lab Assignment 3" required maxlength="100" aria-required="true" aria-describedby="titleError">
+          <span class="form-error" id="titleError">Please enter a mission title.</span>
+        </div>
+
+        <!-- Subject Field -->
+        <div class="form-group">
+          <label for="taskSubjectInput" class="form-label">
+            Subject / Course <span class="required-star">*</span>
+          </label>
+          <input type="text" id="taskSubjectInput" class="form-input" placeholder="e.g., Computer Science, Mathematics, Physics" required list="subjectSuggestions" maxlength="50" aria-required="true" aria-describedby="subjectError">
+          <datalist id="subjectSuggestions">
+            <option value="Computer Science">
+            <option value="Mathematics">
+            <option value="Physics">
+            <option value="Chemistry">
+            <option value="Design & UX">
+            <option value="Literature">
+            <option value="Economics">
+            <option value="History">
+          </datalist>
+          <span class="form-error" id="subjectError">Please specify a subject or course.</span>
+        </div>
+
+        <!-- Due Date Field -->
+        <div class="form-group">
+          <label for="taskDueDateInput" class="form-label">
+            Due Date & Time <span class="required-star">*</span>
+          </label>
+          <input type="datetime-local" id="taskDueDateInput" class="form-input" required aria-required="true" aria-describedby="dateError">
+          <span class="form-error" id="dateError">Please specify a valid deadline date and time.</span>
+        </div>
+
+        <!-- Priority Level Field -->
+        <div class="form-group">
+          <label class="form-label">
+            Priority Level <span class="required-star">*</span>
+          </label>
+          <div class="priority-radio-grid" role="radiogroup" aria-label="Priority Level">
+            <label class="priority-label high-option">
+              <input type="radio" name="priorityOption" value="high" checked>
+              <div class="priority-custom-box">
+                <span class="priority-dot dot-high"></span>
+                <span class="priority-text">High Priority</span>
+                <span class="priority-hint">Immediate Threat</span>
+              </div>
+            </label>
+            <label class="priority-label medium-option">
+              <input type="radio" name="priorityOption" value="medium">
+              <div class="priority-custom-box">
+                <span class="priority-dot dot-med"></span>
+                <span class="priority-text">Medium Priority</span>
+                <span class="priority-hint">Approaching</span>
+              </div>
+            </label>
+            <label class="priority-label low-option">
+              <input type="radio" name="priorityOption" value="low">
+              <div class="priority-custom-box">
+                <span class="priority-dot dot-low"></span>
+                <span class="priority-text">Low Priority</span>
+                <span class="priority-hint">Flexible Time</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group">
+          <label for="taskDescInput" class="form-label">
+            Mission Brief / Notes <span class="optional-tag">(Optional)</span>
+          </label>
+          <textarea id="taskDescInput" class="form-textarea" rows="3" placeholder="Add specific requirements, study links, or instructions..." maxlength="300"></textarea>
+        </div>
+
+        <!-- Modal Action Buttons -->
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveTaskSubmitBtn">
+            <span class="btn-icon">🗡️</span>
+            <span id="saveBtnText">Deploy Mission</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DELETE CONFIRMATION -->
+  <div class="modal-backdrop hidden" id="confirmDeleteModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-box modal-box-sm">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon danger-icon">⚠️</span>
+          <h3 class="modal-title" id="confirmTitle">Abandon Mission?</h3>
+        </div>
+        <button class="modal-close-btn" id="closeDeleteModalBtn" aria-label="Cancel deletion">✕</button>
+      </div>
+      <div class="modal-body-text">
+        <p>Are you sure you want to eliminate this mission from your shinobi scroll?</p>
+        <p class="mission-to-delete-name" id="deleteTaskTitleDisplay">"Mission Title"</p>
+        <p class="modal-subtext">This action cannot be undone.</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminate Mission</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS CONTAINER -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- JavaScript Script Link -->
+  <script src="script.js"></script>
+</body>
+</html>
